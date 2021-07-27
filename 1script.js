@@ -51,10 +51,30 @@ function getMealRecipe(e){
         let mealItem = e.target.parentElement.parentElement;
         fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`)
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
+        .then(data => mealRecipeModal(data.meals))
 
 
     }
+}
+
+//CREATE A MODAL
+function mealRecipeModal(meal) {
+    console.log(meal);
+    meal=meal[0];
+    let  html= `
+        <h2 class="recipe-title">${meal.strMeal}</h2>
+        <p class="recipe-category">${meal.strCategory}</p>
+        <div class="recipe-instruct">
+            <h3>Instruction:</h3>
+            <p>${meal.strInstruction}</p>
+        </div>
+        <div class="recipe-meal-img">
+            <img src="${meal.strMealThumb}" alt="">
+        </div>
+        <div class="recipe-link">
+        <a href="${meal.strYoutube}" target="_blank">Watch Video</a>
+        </div>
+        `;
+        mealDetailsContent.innerHTML = html;
+        mealDetailsContent.parentElement.classList.add('showRecipe');
 }
